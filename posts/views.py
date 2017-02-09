@@ -1,14 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpResponse 
 
+from .models import Post
+
 # Create your views here.
 def posts_home(request):
     return HttpResponse("<h1>sdfd</h1>")
 
 def post_list(request):
 
+    posts = Post.objects.all()
+
     context = {
-        "title": "Detail",
+        "posts": posts,
     }
 
     return render(request, 'index.html', context)
