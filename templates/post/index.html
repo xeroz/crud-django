@@ -1,0 +1,36 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>title</th>
+                            <th>content</th>
+                            <th>timestamp</th>
+                            <th>update</th>
+                            <th>actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in posts %}
+                            <tr>
+                                <th>{{ post.id }}</th>
+                                <th>{{ post.title }}</th>
+                                <th>{{ post.content }}</th>
+                                <th>{{ post.timestamp }}</th>
+                                <th>{{ post.updated }}</th>
+                                <th>
+                                    <a href="{% url 'edit' post.id %}" class="btn btn-default">Edit</a>
+                                    <a href="" class="btn btn-danger">Delete</a>
+                                </th>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="row">
+                    <a href="{% url 'create' %}" class="btn btn-primary">Add</a>
+                </div>
+            </div>
+{% endblock %}
