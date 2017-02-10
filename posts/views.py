@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse 
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
 
 from .models import Post
 
@@ -8,20 +8,31 @@ def posts_home(request):
     return HttpResponse("<h1>sdfd</h1>")
 
 def post_list(request):
-
+    instance = get_object_or_404(Post, id = 2)
     posts = Post.objects.all()
 
     context = {
         "posts": posts,
     }
 
-    return render(request, 'index.html', context)
+    return render(request, 'post/index.html', context)
 
 def post_create(request):
-    return HttpResponse("<h1>create</h1>")
+    
+    context = {
 
-def post_update(args):
-    return HttpResponse("<h1>edit</h1>")
+    }
+
+    return render(request, 'post/create.html', context)
+
+def post_edit(request, id):
+    post = get_object_or_404(Post, id = id)
+    
+    context = {
+        'post': post,
+    }
+
+    return render(request, 'post/edit.html', context)
 
 def post_delete(args):
     return HttpResponse("<h1>delete</h1>")
