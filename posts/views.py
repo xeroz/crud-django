@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.http import HttpResponse
+from django.contrib import messages
 
 from .models import Post
+from .forms import PostForm
 
 # Create your views here.
 def posts_home(request):
@@ -19,17 +21,20 @@ def post_list(request):
 def post_create(request):
 
     if request.method == 'POST':
-        title   = request.POST["title"]
-        content = request.POST["content"]
+        form = PostForm(request.POST)
+        if form.is_valid():
+            title   = request.POST["title"]
+            content = request.POST["content"]
 
-        post = Post(
-            title   = title,
-            content = content
-        )
-        post.save()
+            post = Post(
+                title   = title,
+                content = content
+            )
+            post.save()
 
-        return HttpResponseRedirect('/posts/index/')
-
+            return HttpResponseRedirect('/posts/index/')
+        else :
+            return render(request, 'post/create.html', {'form' : form})
     context = {
 
     }
@@ -37,13 +42,13 @@ def post_create(request):
     return render(request, 'post/create.html', context)
 
 def post_edit(request, id):
-    
+
     post = get_object_or_404(Post, id = id)
-    
+
     if request.method == 'POST':
         title   = request.POST["title"]
         content = request.POST["content"]
-        
+
         post.title   = title
         post.content = content
         post.save()
@@ -57,7 +62,7 @@ def post_edit(request, id):
     return render(request, 'post/edit.html', context)
 
 def post_delete(render, id):
-    
+
     post = get_object_or_404(Post, id = id)
     post.delete()
 
