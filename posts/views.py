@@ -4,8 +4,11 @@ from django.http import HttpResponse
 from .models import Post
 
 # Create your views here.
+
+
 def posts_home(request):
     return HttpResponse("<h1>sdfd</h1>")
+
 
 def post_list(request):
     posts = Post.objects.all()
@@ -16,15 +19,16 @@ def post_list(request):
 
     return render(request, 'post/index.html', context)
 
+
 def post_create(request):
 
     if request.method == 'POST':
-        title   = request.POST["title"]
+        title = request.POST["title"]
         content = request.POST["content"]
 
         post = Post(
-            title   = title,
-            content = content
+            title=title,
+            content=content
         )
         post.save()
 
@@ -36,15 +40,16 @@ def post_create(request):
 
     return render(request, 'post/create.html', context)
 
+
 def post_edit(request, id):
-    
-    post = get_object_or_404(Post, id = id)
-    
+
+    post = get_object_or_404(Post, id=id)
+
     if request.method == 'POST':
-        title   = request.POST["title"]
+        title = request.POST["title"]
         content = request.POST["content"]
-        
-        post.title   = title
+
+        post.title = title
         post.content = content
         post.save()
 
@@ -56,9 +61,10 @@ def post_edit(request, id):
 
     return render(request, 'post/edit.html', context)
 
+
 def post_delete(render, id):
-    
-    post = get_object_or_404(Post, id = id)
+
+    post = get_object_or_404(Post, id=id)
     post.delete()
 
     return HttpResponseRedirect('/posts/index/')
